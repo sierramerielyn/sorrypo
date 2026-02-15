@@ -2,56 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>I'm Sorry Po</title>
     <style>
-        body { margin: 0; overflow: hidden; background: #000; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { margin: 0; overflow: hidden; background: #000; font-family: 'Segoe UI', sans-serif; touch-action: manipulation; }
         
-        /* Animated Stickers */
+        /* Floating Stickers */
         .sticker {
-            position: absolute;
-            font-size: 2rem;
-            pointer-events: none;
-            user-select: none;
-            z-index: 10;
-            animation: float-sticker 6s linear infinite;
-            opacity: 0.7;
+            position: absolute; font-size: 1.8rem; pointer-events: none;
+            z-index: 10; animation: float-sticker 5s linear infinite; opacity: 0.6;
         }
 
         @keyframes float-sticker {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Mail Button */
+        /* Mobile Responsive Mail Button */
         #mail-btn {
-            position: absolute; top: 20px; right: 20px;
+            position: absolute; top: 15px; right: 15px;
             background: #add8e6; color: #333; border: none;
-            padding: 12px 20px; border-radius: 30px; cursor: pointer;
-            font-weight: bold; font-size: 1rem; z-index: 100;
+            padding: 10px 18px; border-radius: 30px; cursor: pointer;
+            font-weight: bold; font-size: 0.9rem; z-index: 100;
             box-shadow: 0 0 15px rgba(173, 216, 230, 0.6);
-            transition: transform 0.3s, background 0.3s;
-            display: flex; align-items: center; gap: 8px;
         }
-        #mail-btn:hover { transform: scale(1.1); background: #b0e2f5; }
 
-        /* Mail Modal Overlay */
+        /* Modal Overlay */
         #modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
             display: none; align-items: center; justify-content: center; z-index: 1000;
+            padding: 20px;
         }
 
-        /* Envelope Template with Scroll */
+        /* Mobile-First Envelope */
         .envelope {
-            width: 90%; max-width: 450px; height: 70vh; background: #fff5f5;
-            padding: 40px 20px 20px 20px; border-radius: 8px; position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 2px solid #ffb6c1;
-            transform: translateY(50px); opacity: 0;
-            transition: all 0.5s ease;
-            display: flex; flex-direction: column;
+            width: 100%; max-width: 400px; height: 80vh; 
+            background: #fff5f5; padding: 40px 10px 15px 10px;
+            border-radius: 12px; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 2px solid #ffb6c1;
+            transform: translateY(30px); opacity: 0; transition: all 0.4s ease;
+            display: flex; flex-direction: column; box-sizing: border-box;
         }
         .envelope.active { transform: translateY(0); opacity: 1; }
 
@@ -60,58 +52,54 @@
             transform: translateX(-50%); background: #ffb6c1; color: white;
             width: 40px; height: 40px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
-            z-index: 2;
         }
 
+        /* Smooth Mobile Scrolling */
         .message-content {
-            color: #444; line-height: 1.6; font-size: 1.1rem;
-            white-space: pre-wrap; text-align: center;
-            overflow-y: auto; flex-grow: 1; padding: 0 15px;
-            scrollbar-width: thin; scrollbar-color: #ffb6c1 transparent;
+            color: #444; line-height: 1.5; font-size: 1rem;
+            text-align: center; overflow-y: auto; flex-grow: 1;
+            padding: 0 10px; -webkit-overflow-scrolling: touch;
         }
 
-        .message-content::-webkit-scrollbar { width: 6px; }
-        .message-content::-webkit-scrollbar-thumb { background: #ffb6c1; border-radius: 10px; }
+        .message-content img {
+            max-width: 90%; border-radius: 10px; margin: 10px auto; display: block;
+        }
 
         .close-mail {
-            display: block; margin: 15px auto 0; padding: 8px 30px;
-            background: #ffb6c1; border: none; border-radius: 20px;
-            color: white; cursor: pointer; font-weight: bold;
+            display: block; margin: 10px auto 5px; padding: 10px 40px;
+            background: #ffb6c1; border: none; border-radius: 25px;
+            color: white; cursor: pointer; font-weight: bold; font-size: 1rem;
         }
 
         #start-prompt {
             position: fixed; inset: 0; background: #000; z-index: 9999;
-            display: flex; align-items: center; justify-content: center;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
         }
     </style>
 </head>
 <body>
 
 <div id="start-prompt">
-    <button style="background:#ffb6c1; border:none; padding:20px 40px; border-radius:50px; color:white; font-size:1.5rem; cursor:pointer;" onclick="init()">SORRY MYY LOVEE</button>
+    <button style="background:#ffb6c1; border:none; padding:18px 35px; border-radius:50px; color:white; font-size:1.2rem; cursor:pointer; width: 80%;" onclick="init()">CLICK TO OPEN PO :[</button>
 </div>
 
-<button id="mail-btn" onclick="toggleMail()">
-    <span>✉</span> Read My Message
-</button>
+<button id="mail-btn" onclick="toggleMail()">✉ Message</button>
 
 <div id="modal-overlay" onclick="toggleMail()">
     <div class="envelope" id="letter" onclick="event.stopPropagation()">
         <div class="message-content">
-            <img src="CRY.gif" alt="">
-Dear Lovey,
+            <p>Dear Lovey,</p>
+            <img src="sob.gif">
+            <p>I hope po you can forgive me... I promise to make it up to you and be the best for you always. I know there's so many things para magalit ikaw sakin but I regretted it because I hurt you. I really hurt you. I don't want to hurt my lovey. 
+              <img src="CRY.gif"> 
+               I'm sorry if I am being defensive. I am sorry for being a jerk and saying the things I really didn't meant. The truth is I am scared na baka bumalik tayo sa dati so inuunahan ko yung mga dapat na mangyari which is so wrongg. 
 
-I am writing this because I really want to say sorry po for everything. You mean the world to me, and seeing you upset is the last thing I ever want. 
-
-<img src="sob.gif" alt="">
-I hope po you can forgive me... I promise to make it up to you and be the best for you always. I know there's so many things para magalit ikaw sakin but I regretted it because I hurt you. I really hurt you. I don't want to hurt my lovey. I'm sorry if I am being defensive. I am sorry for being a jerk and saying the things I really didn't meant. The truth is I am scared na baka bumalik tayo sa dati so inuunahan ko yung mga dapat na mangyari which is so wrongg. 
-
-I hope this message reach you so well. I love you so much, lovey and if there's other things I can do, I will do it for you. You're forever be mine and I'll forever be yours. I hope your tampo and galit will not stay so much longer because I don't want you to tanim sama ng loob. :> I really hope you can forgive me na. I am ready to say sorry infinity times because I don't want to lose you just because for what I did. Sorry for hurting you, for not understanding you, for listening to my head instead of you, for messing things up, for ruining everything, for making you cry, for making you overthink,, I'm sorry if I'm not by your side when you needed me the most. If you're still tampo tampo parin its fine. I won't rush your feelings. Take your time.
-
+I hope this message reach you so well. I love you so much, lovey and if there's other things I can do, I will do it for you. You're forever be mine and I'll forever be yours. I hope your tampo and galit will not stay so much longer because I don't want you to tanim sama ng loob. :> I really hope you can forgive me na. I am ready to say sorry infinity times because I don't want to lose you just because for what I did. Sorry for hurting you, for not understanding you, for listening to my head instead of you, for messing things up, for ruining everything, for making you cry, for making you overthink. I'm sorry if I'm not by your side when you needed me the most. If you're still tampo tampo parin its fine. I won't rush your feelings. Take your time.
+<img src="heart.gif">
 
 Me ♥
-
-<img src="heart.gif" alt="">
+            
+            
         </div>
         <button class="close-mail" onclick="toggleMail()">Close</button>
     </div>
@@ -123,43 +111,34 @@ Me ♥
 
 <script>
 let scene, camera, renderer, particles;
-const particleCount = 12000;
-
-// Sticker configuration
-const stickers = ['🥺', '💖', '😭', '🙏', '✨', '🧸', '🌸'];
+const particleCount = window.innerWidth < 600 ? 8000 : 12000; // Fewer particles for mobile performance
 
 function createSticker() {
+    const stickers = ['🥺', '💖', '😭', '🙏', '✨', '🧸'];
     const div = document.createElement('div');
     div.className = 'sticker';
     div.innerText = stickers[Math.floor(Math.random() * stickers.length)];
-    div.style.left = Math.random() * 100 + 'vw';
-    div.style.animationDuration = (Math.random() * 3 + 4) + 's';
+    div.style.left = Math.random() * 90 + 'vw';
+    div.style.animationDuration = (Math.random() * 2 + 3) + 's';
     document.body.appendChild(div);
-    
-    // Remove sticker after animation ends
-    setTimeout(() => div.remove(), 7000);
+    setTimeout(() => div.remove(), 5000);
 }
 
 function init() {
     document.getElementById('start-prompt').style.display = 'none';
-    document.getElementById('bg-music').play();
-
-    // Start generating stickers
-    setInterval(createSticker, 600);
+    const music = document.getElementById('bg-music');
+    music.play().catch(() => console.log("Music blocked"));
+    
+    setInterval(createSticker, 800);
 
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 12;
+    camera.position.z = window.innerWidth < 600 ? 15 : 12; // Pull camera back on mobile
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
     document.body.appendChild(renderer.domElement);
-
-    // Particles Setup
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-    const color = new THREE.Color("#ffb6c1");
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -171,32 +150,27 @@ function init() {
 
     const imgData = ctx.getImageData(0, 0, 600, 200).data;
     const points = [];
-    for (let y = 0; y < 200; y += 2) {
-        for (let x = 0; x < 600; x += 2) {
+    for (let y = 0; y < 200; y += 3) { // Slightly larger gap for mobile speed
+        for (let x = 0; x < 600; x += 3) {
             if (imgData[(y * 600 + x) * 4] > 128) {
                 points.push({ x: (x - 300) * 0.05, y: (100 - y) * 0.05 });
             }
         }
     }
 
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount; i++) {
         const p = points[i % points.length];
-        positions[i * 3] = p.x + (Math.random() - 0.5) * 0.3;
-        positions[i * 3 + 1] = p.y + (Math.random() - 0.5) * 0.3;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 3;
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
+        positions[i * 3] = p.x + (Math.random() - 0.5) * 0.4;
+        positions[i * 3 + 1] = p.y + (Math.random() - 0.5) * 0.4;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 2;
     }
-
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     
     particles = new THREE.Points(geometry, new THREE.PointsMaterial({ 
-        size: 0.07, 
-        vertexColors: true, 
-        transparent: true, 
-        blending: THREE.AdditiveBlending 
+        size: window.innerWidth < 600 ? 0.09 : 0.07, 
+        color: "#ffb6c1", transparent: true, blending: THREE.AdditiveBlending 
     }));
     scene.add(particles);
 
@@ -205,12 +179,8 @@ function init() {
 
 function animate() {
     requestAnimationFrame(animate);
-    
-    // Smooth 360-degree rotation
-    const time = Date.now() * 0.001;
-    particles.rotation.y = time * 0.5; // Constant horizontal spin
-    particles.rotation.z = Math.sin(time * 0.5) * 0.2; // Subtle tilt
-
+    const time = Date.now() * 0.0008;
+    particles.rotation.y = time; 
     renderer.render(scene, camera);
 }
 
@@ -219,15 +189,14 @@ function toggleMail() {
     const letter = document.getElementById('letter');
     if (modal.style.display === 'flex') {
         letter.classList.remove('active');
-        setTimeout(() => modal.style.display = 'none', 500);
+        setTimeout(() => modal.style.display = 'none', 400);
     } else {
         modal.style.display = 'flex';
-        setTimeout(() => letter.classList.add('active'), 10);
+        setTimeout(() => letter.classList.add('active'), 50);
     }
 }
 
 window.addEventListener('resize', () => {
-    if(!camera) return;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
